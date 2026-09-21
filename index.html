@@ -1,411 +1,531 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vincenzo Mola — Backend Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #f5f7f6;
-    --bg-elevated: #ffffff;
-    --surface: #eef1f0;
-    --border: #d7dedb;
-    --text: #16201d;
-    --text-dim: #5c6864;
-    --accent: #a9752c;
-    --accent-soft: #a9752c1a;
-    --accent-2: #3f7d6f;
-    --accent-2-soft: #3f7d6f1a;
-    --danger-echo: #b25b45;
-    --shadow: 0 1px 2px rgba(20, 30, 27, 0.06);
-    --radius-s: 3px;
-    --radius-m: 6px;
-  }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vincenzo Mola — Backend Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f5f7f6;
+        --bg-elevated: #ffffff;
+        --surface: #eef1f0;
+        --border: #d7dedb;
+        --text: #16201d;
+        --text-dim: #5c6864;
+        --accent: #a9752c;
+        --accent-soft: #a9752c1a;
+        --accent-2: #3f7d6f;
+        --accent-2-soft: #3f7d6f1a;
+        --danger-echo: #b25b45;
+        --shadow: 0 1px 2px rgba(20, 30, 27, 0.06);
+        --radius-s: 3px;
+        --radius-m: 6px;
+      }
 
-  :root:not([data-theme="light"]) {
-    @media (prefers-color-scheme: dark) {
-      --bg: #0f1513;
-      --bg-elevated: #141c1a;
-      --surface: #182120;
-      --border: #2b3634;
-      --text: #e9ede9;
-      --text-dim: #93a19c;
-      --accent: #d7a85c;
-      --accent-soft: #d7a85c22;
-      --accent-2: #7bc4b3;
-      --accent-2-soft: #7bc4b322;
-      --danger-echo: #d98a72;
-      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    }
-  }
+      :root:not([data-theme="light"]) {
+        @media (prefers-color-scheme: dark) {
+          --bg: #0f1513;
+          --bg-elevated: #141c1a;
+          --surface: #182120;
+          --border: #2b3634;
+          --text: #e9ede9;
+          --text-dim: #93a19c;
+          --accent: #d7a85c;
+          --accent-soft: #d7a85c22;
+          --accent-2: #7bc4b3;
+          --accent-2-soft: #7bc4b322;
+          --danger-echo: #d98a72;
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+      }
 
-  :root[data-theme="dark"] {
-    --bg: #0f1513;
-    --bg-elevated: #141c1a;
-    --surface: #182120;
-    --border: #2b3634;
-    --text: #e9ede9;
-    --text-dim: #93a19c;
-    --accent: #d7a85c;
-    --accent-soft: #d7a85c22;
-    --accent-2: #7bc4b3;
-    --accent-2-soft: #7bc4b322;
-    --danger-echo: #d98a72;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
+      :root[data-theme="dark"] {
+        --bg: #0f1513;
+        --bg-elevated: #141c1a;
+        --surface: #182120;
+        --border: #2b3634;
+        --text: #e9ede9;
+        --text-dim: #93a19c;
+        --accent: #d7a85c;
+        --accent-soft: #d7a85c22;
+        --accent-2: #7bc4b3;
+        --accent-2-soft: #7bc4b322;
+        --danger-echo: #d98a72;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      }
 
-  * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
-  }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
 
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          "Manrope",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
 
-  .mono {
-    font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  }
+      .mono {
+        font-family:
+          "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas,
+          monospace;
+      }
 
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-  }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
 
-  .wrap {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
 
-  /* ---------- NAV ---------- */
-  header.nav {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-inner {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .nav-mark {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--text);
-  }
-  .nav-mark span { color: var(--accent); }
-  nav.links {
-    display: flex;
-    gap: 22px;
-    font-size: 0.88rem;
-  }
-  nav.links a {
-    color: var(--text-dim);
-    font-weight: 500;
-  }
-  nav.links a:hover { color: var(--text); text-decoration: none; }
+      /* ---------- NAV ---------- */
+      header.nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-inner {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-mark {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--text);
+      }
+      .nav-mark span {
+        color: var(--accent);
+      }
+      nav.links {
+        display: flex;
+        gap: 22px;
+        font-size: 0.88rem;
+      }
+      nav.links a {
+        color: var(--text-dim);
+        font-weight: 500;
+      }
+      nav.links a:hover {
+        color: var(--text);
+        text-decoration: none;
+      }
 
-  @media (max-width: 560px) {
-    nav.links { gap: 14px; font-size: 0.8rem; }
-  }
+      @media (max-width: 560px) {
+        nav.links {
+          gap: 14px;
+          font-size: 0.8rem;
+        }
+      }
 
-  /* ---------- HERO ---------- */
-  .hero {
-    padding: 64px 0 56px;
-  }
-  .terminal {
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-m);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .terminal-bar {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
-  .terminal-title {
-    margin-left: 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-dim);
-  }
-  .terminal-body {
-    padding: 20px 20px 22px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
-    line-height: 1.65;
-    overflow-x: auto;
-  }
-  .terminal-body .prompt { color: var(--accent-2); }
-  .terminal-body .kw { color: var(--accent); }
-  .terminal-body .dim { color: var(--text-dim); }
-  .terminal-body pre { margin: 10px 0 0; white-space: pre; }
-  .cursor {
-    display: inline-block;
-    width: 7px;
-    height: 1em;
-    background: var(--accent);
-    vertical-align: -2px;
-    animation: blink 1.1s steps(1) infinite;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
+      /* ---------- HERO ---------- */
+      .hero {
+        padding: 64px 0 56px;
+      }
+      .terminal {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-m);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .terminal-bar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--border);
+      }
+      .terminal-title {
+        margin-left: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--text-dim);
+      }
+      .terminal-body {
+        padding: 20px 20px 22px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.82rem;
+        line-height: 1.65;
+        overflow-x: auto;
+      }
+      .terminal-body .prompt {
+        color: var(--accent-2);
+      }
+      .terminal-body .kw {
+        color: var(--accent);
+      }
+      .terminal-body .dim {
+        color: var(--text-dim);
+      }
+      .terminal-body pre {
+        margin: 10px 0 0;
+        white-space: pre;
+      }
+      .cursor {
+        display: inline-block;
+        width: 7px;
+        height: 1em;
+        background: var(--accent);
+        vertical-align: -2px;
+        animation: blink 1.1s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
 
-  .hero-heading {
-    margin-top: 34px;
-  }
-  .hero-heading h1 {
-    font-size: clamp(2rem, 5vw, 2.9rem);
-    line-height: 1.15;
-    margin: 0 0 14px;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-  }
-  .hero-heading p {
-    font-size: 1.08rem;
-    color: var(--text-dim);
-    max-width: 54ch;
-    margin: 0 0 28px;
-  }
-  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
-  .btn {
-    display: inline-block;
-    padding: 11px 20px;
-    border-radius: var(--radius-s);
-    font-weight: 600;
-    font-size: 0.92rem;
-    border: 1px solid transparent;
-  }
-  .btn:hover { text-decoration: none; }
-  .btn-primary {
-    background: var(--accent);
-    color: #1a1305;
-  }
-  .btn-primary:hover { filter: brightness(1.06); }
-  .btn-ghost {
-    background: transparent;
-    border-color: var(--border);
-    color: var(--text);
-  }
-  .btn-ghost:hover { border-color: var(--accent); }
+      .hero-heading {
+        margin-top: 34px;
+      }
+      .hero-heading h1 {
+        font-size: clamp(2rem, 5vw, 2.9rem);
+        line-height: 1.15;
+        margin: 0 0 14px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+      .hero-heading p {
+        font-size: 1.08rem;
+        color: var(--text-dim);
+        max-width: 54ch;
+        margin: 0 0 28px;
+      }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .btn {
+        display: inline-block;
+        padding: 11px 20px;
+        border-radius: var(--radius-s);
+        font-weight: 600;
+        font-size: 0.92rem;
+        border: 1px solid transparent;
+      }
+      .btn:hover {
+        text-decoration: none;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #1a1305;
+      }
+      .btn-primary:hover {
+        filter: brightness(1.06);
+      }
+      .btn-ghost {
+        background: transparent;
+        border-color: var(--border);
+        color: var(--text);
+      }
+      .btn-ghost:hover {
+        border-color: var(--accent);
+      }
 
-  /* ---------- SECTIONS GENERIC ---------- */
-  section { padding: 56px 0; border-top: 1px solid var(--border); }
-  .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--accent-2);
-    margin: 0 0 10px;
-  }
-  .section-label::before { content: "// "; color: var(--text-dim); }
-  h2 {
-    font-size: 1.7rem;
-    margin: 0 0 24px;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-  }
+      /* ---------- SECTIONS GENERIC ---------- */
+      section {
+        padding: 56px 0;
+        border-top: 1px solid var(--border);
+      }
+      .section-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--accent-2);
+        margin: 0 0 10px;
+      }
+      .section-label::before {
+        content: "// ";
+        color: var(--text-dim);
+      }
+      h2 {
+        font-size: 1.7rem;
+        margin: 0 0 24px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
 
-  /* ---------- ABOUT ---------- */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 40px;
-    align-items: start;
-  }
-  .about-grid p { color: var(--text-dim); max-width: 58ch; }
-  .meta-table {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-m);
-    overflow: hidden;
-  }
-  .meta-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 11px 14px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg-elevated);
-  }
-  .meta-row:last-child { border-bottom: none; }
-  .meta-row .k { color: var(--accent-2); }
-  .meta-row .v { color: var(--text); text-align: right; }
+      /* ---------- ABOUT ---------- */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 40px;
+        align-items: start;
+      }
+      .about-grid p {
+        color: var(--text-dim);
+        max-width: 58ch;
+      }
+      .meta-table {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.82rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-m);
+        overflow: hidden;
+      }
+      .meta-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg-elevated);
+      }
+      .meta-row:last-child {
+        border-bottom: none;
+      }
+      .meta-row .k {
+        color: var(--accent-2);
+      }
+      .meta-row .v {
+        color: var(--text);
+        text-align: right;
+      }
 
-  @media (max-width: 720px) {
-    .about-grid { grid-template-columns: 1fr; }
-  }
+      @media (max-width: 720px) {
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+      }
 
-  /* ---------- SKILLS ---------- */
-  .skill-tables {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 18px;
-  }
-  .skill-table {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-m);
-    overflow: hidden;
-    background: var(--bg-elevated);
-  }
-  .skill-table-head {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--accent);
-    padding: 10px 14px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-  }
-  .skill-table-head .tag { color: var(--text-dim); }
-  .skill-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 9px 14px;
-    font-size: 0.88rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .skill-row:last-child { border-bottom: none; }
-  .skill-row .type {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-dim);
-  }
+      /* ---------- SKILLS ---------- */
+      .skill-tables {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 18px;
+      }
+      .skill-table {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-m);
+        overflow: hidden;
+        background: var(--bg-elevated);
+      }
+      .skill-table-head {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--accent);
+        padding: 10px 14px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+      }
+      .skill-table-head .tag {
+        color: var(--text-dim);
+      }
+      .skill-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 9px 14px;
+        font-size: 0.88rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .skill-row:last-child {
+        border-bottom: none;
+      }
+      .skill-row .type {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--text-dim);
+      }
 
-  /* ---------- PROJECTS ---------- */
-  .dt-line {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    margin-bottom: 22px;
-  }
-  .dt-line .p { color: var(--accent-2); }
-  .project {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-m);
-    background: var(--bg-elevated);
-    padding: 22px 22px 20px;
-    margin-bottom: 16px;
-  }
-  .project-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-  }
-  .project-head h3 { margin: 0; font-size: 1.15rem; font-weight: 700; }
-  .project-id {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-dim);
-  }
-  .project p.desc { color: var(--text-dim); margin: 0 0 14px; max-width: 62ch; }
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-  .tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    padding: 4px 9px;
-    border-radius: 999px;
-    background: var(--accent-2-soft);
-    color: var(--accent-2);
-    border: 1px solid var(--accent-2-soft);
-  }
-  .project-links { display: flex; gap: 18px; font-size: 0.85rem; font-weight: 600; }
+      /* ---------- PROJECTS ---------- */
+      .dt-line {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        color: var(--text-dim);
+        margin-bottom: 22px;
+      }
+      .dt-line .p {
+        color: var(--accent-2);
+      }
+      .project {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-m);
+        background: var(--bg-elevated);
+        padding: 22px 22px 20px;
+        margin-bottom: 16px;
+      }
+      .project-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .project-head h3 {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+      .project-id {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--text-dim);
+      }
+      .project p.desc {
+        color: var(--text-dim);
+        margin: 0 0 14px;
+        max-width: 62ch;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: var(--accent-2-soft);
+        color: var(--accent-2);
+        border: 1px solid var(--accent-2-soft);
+      }
+      .project-links {
+        display: flex;
+        gap: 18px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
 
-  /* ---------- CONTACT ---------- */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 32px;
-    align-items: start;
-  }
-  .contact-list { list-style: none; padding: 0; margin: 0; }
-  .contact-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 13px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.95rem;
-  }
-  .contact-list li:first-child { padding-top: 0; }
-  .contact-list .label { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
-  @media (max-width: 720px) {
-    .contact-grid { grid-template-columns: 1fr; }
-  }
+      /* ---------- CONTACT ---------- */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 32px;
+        align-items: start;
+      }
+      .contact-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .contact-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 13px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.95rem;
+      }
+      .contact-list li:first-child {
+        padding-top: 0;
+      }
+      .contact-list .label {
+        color: var(--text-dim);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+      }
+      @media (max-width: 720px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+      }
 
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 26px 0 40px;
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  footer .mono { color: var(--text-dim); }
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 26px 0 40px;
+        font-size: 0.82rem;
+        color: var(--text-dim);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      footer .mono {
+        color: var(--text-dim);
+      }
 
-  .placeholder-note {
-    font-size: 0.72rem;
-    color: var(--danger-echo);
-    font-family: 'JetBrains Mono', monospace;
-  }
-</style>
-</head>
-<body>
-
-<header class="nav">
-  <div class="nav-inner">
-    <a class="nav-mark" href="#" style="text-decoration:none;">PORTFOLIO</a>
-    <nav class="links">
-      <a href="#chi-sono">Chi sono</a>
-      <a href="#competenze">Competenze</a>
-      <a href="#progetti">Progetti</a>
-      <a href="#contatti">Contatti</a>
-    </nav>
-  </div>
-</header>
-
-<main class="wrap">
-
-  <!-- HERO -->
-  <section class="hero" style="border-top:none; padding-top:48px;">
-    <div class="terminal">
-      <div class="terminal-bar">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        <span class="terminal-title">psql — curriculum</span>
+      .placeholder-note {
+        font-size: 0.72rem;
+        color: var(--danger-echo);
+        font-family: "JetBrains Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="nav-mark" href="#" style="text-decoration: none">PORTFOLIO</a>
+        <nav class="links">
+          <a href="#chi-sono">Chi sono</a>
+          <a href="#competenze">Competenze</a>
+          <a href="#progetti">Progetti</a>
+          <a href="#contatti">Contatti</a>
+        </nav>
       </div>
-      <div class="terminal-body">
-        <span class="prompt">curriculum=></span> <span class="kw">SELECT</span> nome, ruolo, stack
-<pre><span class="prompt">curriculum-></span> <span class="kw">FROM</span> sviluppatore
+    </header>
+
+    <main class="wrap">
+      <!-- HERO -->
+      <section class="hero" style="border-top: none; padding-top: 48px">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="dot"></span><span class="dot"></span
+            ><span class="dot"></span>
+            <span class="terminal-title">psql — curriculum</span>
+          </div>
+          <div class="terminal-body">
+            <span class="prompt">curriculum=></span>
+            <span class="kw">SELECT</span> nome, ruolo, stack
+            <pre><span class="prompt">curriculum-></span> <span class="kw">FROM</span> sviluppatore
 <span class="prompt">curriculum-></span> <span class="kw">WHERE</span> disponibilita = <span class="kw">true</span>;
 
  nome            | ruolo             | stack
@@ -415,174 +535,313 @@
 <span class="dim">(1 row)</span>
 
 <span class="prompt">curriculum=></span> <span class="cursor"></span></pre>
-      </div>
-    </div>
-
-    <div class="hero-heading">
-      <h1>Vincenzo Mola</h1>
-      <p>Sviluppatore Full-Stack con specializzazione Backend, realizzando API con architettura REST, scalabile ed affidabile tramite Java ed il framework Spring.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#progetti">Vedi i progetti</a>
-        <a class="btn btn-ghost" href="#contatti">Contattami</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CHI SONO -->
-  <section id="chi-sono">
-    <p class="section-label">chi_sono</p>
-    <h2>Un po' di contesto</h2>
-    <div class="about-grid">
-      <p>
-        Sono un Full-Stack developer con un percorso di formazione
-        internazionale tra Italia e Giappone. Ho studiato Informatica alla
-        Tokyo Fukushi University, specializzandomi in C e Java, e ho poi
-        approfondito lo sviluppo web full-stack con il Master EPICODE,
-        concentrandomi su architetture backend solide, mantenibili e
-        scalabili con Java e Spring Boot. Durante la mia formazione, ho
-        lavorato a Tokyo nell'ambito della ristorazione, un'esperienza che
-        mi ha insegnato il lavoro di squadra e la gestione dello stress in
-        contesti dinamici. Al momento sono alla ricerca di un'opportunità
-        lavorativa come Backend Developer, ma flessibile e propenso a
-        coprire altri ruoli, in un team dove poter crescere e portare
-        valore fin da subito.
-      </p>
-      <div class="meta-table">
-        <div class="meta-row"><span class="k">età</span><span class="v">28 anni</span></div>
-        <div class="meta-row"><span class="k">formazione</span><span class="v">Master Full-Stack, EPICODE</span></div>
-        <div class="meta-row"><span class="k">sede</span><span class="v">Napoli, Italia</span></div>
-        <div class="meta-row"><span class="k">lingue</span><span class="v">IT · EN (C1) · JP (N2)</span></div>
-        <div class="meta-row"><span class="k">disponibilita</span><span class="v">Immediata</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMPETENZE -->
-  <section id="competenze">
-    <p class="section-label">competenze</p>
-    <h2>Schema delle competenze</h2>
-    <div class="skill-tables">
-      <div class="skill-table">
-        <div class="skill-table-head">linguaggi_e_framework <span class="tag">table</span></div>
-        <div class="skill-row"><span>Java</span><span class="type">core</span></div>
-        <div class="skill-row"><span>Spring Framework</span><span class="type">framework</span></div>
-        <div class="skill-row"><span>Spring Boot</span><span class="type">framework</span></div>
-        <div class="skill-row"><span>REST API</span><span class="type">design</span></div>
-        <div class="skill-row"><span>JavaScript / TypeScript</span><span class="type">frontend</span></div>
-        <div class="skill-row"><span>React</span><span class="type">frontend</span></div>
-      </div>
-      <div class="skill-table">
-        <div class="skill-table-head">database <span class="tag">table</span></div>
-        <div class="skill-row"><span>PostgreSQL</span><span class="type">rdbms</span></div>
-        <div class="skill-row"><span>SQL</span><span class="type">query</span></div>
-        <div class="skill-row"><span>Supabase</span><span class="type">backend-as-a-service</span></div>
-      </div>
-      <div class="skill-table">
-        <div class="skill-table-head">strumenti_e_deploy <span class="tag">table</span></div>
-        <div class="skill-row"><span>Git / GitHub</span><span class="type">vcs</span></div>
-        <div class="skill-row"><span>Maven</span><span class="type">build</span></div>
-        <div class="skill-row"><span>Postman</span><span class="type">api testing</span></div>
-        <div class="skill-row"><span>Railway / Vercel</span><span class="type">deploy</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROGETTI -->
-  <section id="progetti">
-    <p class="section-label">progetti</p>
-    <h2>Cosa ho costruito</h2>
-    <p class="dt-line"><span class="p">curriculum=></span> \dt progetti</p>
-
-    <div class="project">
-      <div class="project-head">
-        <h3>EventZone</h3>
-        <span class="project-id">#001</span>
-      </div>
-      <p class="desc">Progetto Capstone del Master EPICODE — una web app responsive (anche lato mobile) per la gestione e l'acquisto di biglietti per eventi e per l'organizzazione degli utenti della piattaforma. Rappresenta la sintesi dei 6 mesi di percorso full-stack, con particolare attenzione alla struttura del backend.</p>
-      <div class="tags">
-        <span class="tag">Java</span><span class="tag">Spring Framework</span><span class="tag">REST APIs</span><span class="tag">PostgreSQL</span><span class="tag">SQL</span><span class="tag">Supabase</span><span class="tag">JavaScript</span><span class="tag">React Native</span><span class="tag">Git</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/VMthhorizon/event_zone" target="_blank" rel="noopener">GitHub →</a>
-        <a href="https://event-zone-lyart.vercel.app/" target="_blank" rel="noopener">Demo →</a>
-      </div>
-    </div>
-
-    <div class="project">
-      <div class="project-head">
-        <h3>Epic Energy Service</h3>
-        <span class="project-id">#002</span>
-      </div>
-      <p class="desc">Web app per la gestione di un'azienda energetica: lato personale permette di organizzare il team, lato utente consente di visualizzare le proprie fatture e le offerte disponibili. Frontend con React Native, HTML, CSS, Redux, React-Router-Dom e Bootstrap; backend in Java e Spring Framework con autenticazione JWT, JPA e API REST su database PostgreSQL.</p>
-      <div class="tags">
-        <span class="tag">React Native</span><span class="tag">Spring Framework</span><span class="tag">Java</span><span class="tag">PostgreSQL</span><span class="tag">REST APIs</span><span class="tag">SQL</span><span class="tag">JPQL</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/VMthhorizon/buildweek-u5" target="_blank" rel="noopener">GitHub →</a>
-      </div>
-    </div>
-
-    <div class="project">
-      <div class="project-head">
-        <h3>Transit and Ticketing Project</h3>
-        <span class="project-id">#003</span>
-      </div>
-      <p class="desc">Un'applicazione backend in Java pensata per gestire una rete di trasporto pubblico e il relativo sistema di biglietteria. Il progetto si concentra sulla persistenza dei dati, su una logica di business complessa e su un'esperienza utente basata sui ruoli (utente e amministratore).</p>
-      <div class="tags">
-        <span class="tag">Java</span><span class="tag">JPQL</span><span class="tag">PostgreSQL</span><span class="tag">DBMS</span><span class="tag">Git</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/VMthhorizon/u4_w4_BuildWeek_Team3" target="_blank" rel="noopener">GitHub →</a>
-      </div>
-    </div>
-
-    <div class="project">
-      <div class="project-head">
-        <h3>LinkedIn Clone</h3>
-        <span class="project-id">#004</span>
-      </div>
-      <p class="desc">Un clone frontend di LinkedIn, completamente responsive e ricco di funzionalità. Il progetto si concentra sulla riproduzione dell'esperienza utente principale di LinkedIn, del comportamento dinamico del feed e di componenti UI moderni, senza un backend persistente, affidandosi alla gestione dello stato per simulare le interazioni dell'utente.</p>
-      <div class="tags">
-        <span class="tag">React.js</span><span class="tag">JavaScript</span><span class="tag">Redux.js</span><span class="tag">Bootstrap</span><span class="tag">Git</span>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/VMthhorizon/BW3_TEAM_4" target="_blank" rel="noopener">GitHub →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTATTI -->
-  <section id="contatti">
-    <p class="section-label">contatti</p>
-    <h2>Parliamone</h2>
-    <div class="contact-grid">
-      <div class="terminal">
-        <div class="terminal-bar">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <span class="terminal-title">psql — curriculum</span>
+          </div>
         </div>
-        <div class="terminal-body">
-<pre><span class="prompt">curriculum=></span> <span class="kw">INSERT INTO</span> conversazioni (mittente, messaggio)
+
+        <div class="hero-heading">
+          <h1>Vincenzo Mola</h1>
+          <p>
+            Sviluppatore Full-Stack con specializzazione Backend, realizzando
+            API con architettura REST, scalabile ed affidabile tramite Java ed
+            il framework Spring.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#progetti">Vedi i progetti</a>
+            <a class="btn btn-ghost" href="#contatti">Contattami</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHI SONO -->
+      <section id="chi-sono">
+        <p class="section-label">chi_sono</p>
+        <h2>Un po' di contesto</h2>
+        <div class="about-grid">
+          <p>
+            Sono un Full-Stack developer con un percorso di formazione
+            internazionale tra Italia e Giappone. Ho studiato Informatica alla
+            Tokyo Fukushi University, specializzandomi in C e Java, e ho poi
+            approfondito lo sviluppo web full-stack con il Master EPICODE,
+            concentrandomi su architetture backend solide, mantenibili e
+            scalabili con Java e Spring Boot. Durante la mia formazione, ho
+            lavorato a Tokyo nell'ambito della ristorazione, un'esperienza che
+            mi ha insegnato il lavoro di squadra e la gestione dello stress in
+            contesti dinamici. Al momento sono alla ricerca di un'opportunità
+            lavorativa come Backend Developer, ma flessibile e propenso a
+            coprire altri ruoli, in un team dove poter crescere e portare valore
+            fin da subito.
+          </p>
+          <div class="meta-table">
+            <div class="meta-row">
+              <span class="k">età</span><span class="v">28 anni</span>
+            </div>
+            <div class="meta-row">
+              <span class="k">formazione</span
+              ><span class="v">Master Full-Stack, EPICODE</span>
+            </div>
+            <div class="meta-row">
+              <span class="k">sede</span><span class="v">Napoli, Italia</span>
+            </div>
+            <div class="meta-row">
+              <span class="k">lingue</span
+              ><span class="v">IT · EN (C1) · JP (N2)</span>
+            </div>
+            <div class="meta-row">
+              <span class="k">disponibilita</span
+              ><span class="v">Immediata</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPETENZE -->
+      <section id="competenze">
+        <p class="section-label">competenze</p>
+        <h2>Schema delle competenze</h2>
+        <div class="skill-tables">
+          <div class="skill-table">
+            <div class="skill-table-head">
+              linguaggi_e_framework <span class="tag">table</span>
+            </div>
+            <div class="skill-row">
+              <span>Java</span><span class="type">core</span>
+            </div>
+            <div class="skill-row">
+              <span>Spring Framework</span><span class="type">framework</span>
+            </div>
+            <div class="skill-row">
+              <span>Spring Boot</span><span class="type">framework</span>
+            </div>
+            <div class="skill-row">
+              <span>REST API</span><span class="type">design</span>
+            </div>
+            <div class="skill-row">
+              <span>JavaScript / TypeScript</span
+              ><span class="type">frontend</span>
+            </div>
+            <div class="skill-row">
+              <span>React</span><span class="type">frontend</span>
+            </div>
+          </div>
+          <div class="skill-table">
+            <div class="skill-table-head">
+              database <span class="tag">table</span>
+            </div>
+            <div class="skill-row">
+              <span>PostgreSQL</span><span class="type">rdbms</span>
+            </div>
+            <div class="skill-row">
+              <span>SQL</span><span class="type">query</span>
+            </div>
+            <div class="skill-row">
+              <span>Supabase</span
+              ><span class="type">backend-as-a-service</span>
+            </div>
+          </div>
+          <div class="skill-table">
+            <div class="skill-table-head">
+              strumenti_e_deploy <span class="tag">table</span>
+            </div>
+            <div class="skill-row">
+              <span>Git / GitHub</span><span class="type">vcs</span>
+            </div>
+            <div class="skill-row">
+              <span>Maven</span><span class="type">build</span>
+            </div>
+            <div class="skill-row">
+              <span>Postman</span><span class="type">api testing</span>
+            </div>
+            <div class="skill-row">
+              <span>Railway / Vercel</span><span class="type">deploy</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROGETTI -->
+      <section id="progetti">
+        <p class="section-label">progetti</p>
+        <h2>Cosa ho costruito</h2>
+        <p class="dt-line"><span class="p">curriculum=></span> \dt progetti</p>
+
+        <div class="project">
+          <div class="project-head">
+            <h3>EventZone</h3>
+            <span class="project-id">#001</span>
+          </div>
+          <p class="desc">
+            Progetto Capstone del Master EPICODE — una web app responsive (anche
+            lato mobile) per la gestione e l'acquisto di biglietti per eventi e
+            per l'organizzazione degli utenti della piattaforma. Rappresenta la
+            sintesi dei 6 mesi di percorso full-stack, con particolare
+            attenzione alla struttura del backend.
+          </p>
+          <div class="tags">
+            <span class="tag">Java</span
+            ><span class="tag">Spring Framework</span
+            ><span class="tag">REST APIs</span
+            ><span class="tag">PostgreSQL</span><span class="tag">SQL</span
+            ><span class="tag">Supabase</span><span class="tag">JavaScript</span
+            ><span class="tag">React Native</span><span class="tag">Git</span>
+          </div>
+          <div class="project-links">
+            <a
+              href="https://github.com/VMthhorizon/event_zone"
+              target="_blank"
+              rel="noopener"
+              >GitHub →</a
+            >
+            <a
+              href="https://event-zone-lyart.vercel.app/"
+              target="_blank"
+              rel="noopener"
+              >Demo →</a
+            >
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <h3>Epic Energy Service</h3>
+            <span class="project-id">#002</span>
+          </div>
+          <p class="desc">
+            Web app per la gestione di un'azienda energetica: lato personale
+            permette di organizzare il team, lato utente consente di
+            visualizzare le proprie fatture e le offerte disponibili. Frontend
+            con React Native, HTML, CSS, Redux, React-Router-Dom e Bootstrap;
+            backend in Java e Spring Framework con autenticazione JWT, JPA e API
+            REST su database PostgreSQL.
+          </p>
+          <div class="tags">
+            <span class="tag">React Native</span
+            ><span class="tag">Spring Framework</span
+            ><span class="tag">Java</span><span class="tag">PostgreSQL</span
+            ><span class="tag">REST APIs</span><span class="tag">SQL</span
+            ><span class="tag">JPQL</span>
+          </div>
+          <div class="project-links">
+            <a
+              href="https://github.com/VMthhorizon/buildweek-u5"
+              target="_blank"
+              rel="noopener"
+              >GitHub →</a
+            >
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <h3>Transit and Ticketing Project</h3>
+            <span class="project-id">#003</span>
+          </div>
+          <p class="desc">
+            Un'applicazione backend in Java pensata per gestire una rete di
+            trasporto pubblico e il relativo sistema di biglietteria. Il
+            progetto si concentra sulla persistenza dei dati, su una logica di
+            business complessa e su un'esperienza utente basata sui ruoli
+            (utente e amministratore).
+          </p>
+          <div class="tags">
+            <span class="tag">Java</span><span class="tag">JPQL</span
+            ><span class="tag">PostgreSQL</span><span class="tag">DBMS</span
+            ><span class="tag">Git</span>
+          </div>
+          <div class="project-links">
+            <a
+              href="https://github.com/VMthhorizon/u4_w4_BuildWeek_Team3"
+              target="_blank"
+              rel="noopener"
+              >GitHub →</a
+            >
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <h3>LinkedIn Clone</h3>
+            <span class="project-id">#004</span>
+          </div>
+          <p class="desc">
+            Un clone frontend di LinkedIn, completamente responsive e ricco di
+            funzionalità. Il progetto si concentra sulla riproduzione
+            dell'esperienza utente principale di LinkedIn, del comportamento
+            dinamico del feed e di componenti UI moderni, senza un backend
+            persistente, affidandosi alla gestione dello stato per simulare le
+            interazioni dell'utente.
+          </p>
+          <div class="tags">
+            <span class="tag">React.js</span><span class="tag">JavaScript</span
+            ><span class="tag">Redux.js</span><span class="tag">Bootstrap</span
+            ><span class="tag">Git</span>
+          </div>
+          <div class="project-links">
+            <a
+              href="https://github.com/VMthhorizon/BW3_TEAM_4"
+              target="_blank"
+              rel="noopener"
+              >GitHub →</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTATTI -->
+      <section id="contatti">
+        <p class="section-label">contatti</p>
+        <h2>Parliamone</h2>
+        <div class="contact-grid">
+          <div class="terminal">
+            <div class="terminal-bar">
+              <span class="dot"></span><span class="dot"></span
+              ><span class="dot"></span>
+              <span class="terminal-title">psql — curriculum</span>
+            </div>
+            <div class="terminal-body">
+              <pre><span class="prompt">curriculum=></span> <span class="kw">INSERT INTO</span> conversazioni (mittente, messaggio)
 <span class="prompt">curriculum-></span> <span class="kw">VALUES</span> (<span class="dim">'tu'</span>, <span class="dim">'Ciao, parliamo di lavoro?'</span>);
 
 <span class="dim">INSERT 0 1</span></pre>
+            </div>
+          </div>
+          <ul class="contact-list">
+            <li>
+              <span class="label">email</span
+              ><a href="mailto:vincenzo.mola@hotmail.com"
+                >vincenzo.mola@hotmail.com</a
+              >
+            </li>
+            <li>
+              <span class="label">linkedin</span
+              ><a
+                href="https://www.linkedin.com/in/vincenzo-mola/"
+                target="_blank"
+                rel="noopener"
+                >linkedin.com/in/vincenzo-mola</a
+              >
+            </li>
+            <li>
+              <span class="label">github</span
+              ><a
+                href="https://github.com/VMthhorizon"
+                target="_blank"
+                rel="noopener"
+                >github.com/VMthhorizon</a
+              >
+            </li>
+            <li>
+              <span class="label">cv</span
+              ><a href="Vincenzo_Mola_CV.pdf" download="Vincenzo_Mola_CV.pdf"
+                >Scarica CV — PDF</a
+              >
+            </li>
+          </ul>
         </div>
-      </div>
-      <ul class="contact-list">
-        <li><span class="label">email</span><a href="mailto:vincenzo.mola@hotmail.com">vincenzo.mola@hotmail.com</a></li>
-        <li><span class="label">linkedin</span><a href="https://www.linkedin.com/in/vincenzo-mola/" target="_blank" rel="noopener">linkedin.com/in/vincenzo-mola</a></li>
-        <li><span class="label">github</span><a href="https://github.com/VMthhorizon" target="_blank" rel="noopener">github.com/VMthhorizon</a></li>
-        <li><span class="label">cv</span><a href="Vincenzo_Mola_CV.pdf" download="Vincenzo_Mola_CV.pdf">Scarica CV — PDF</a></li>
-      </ul>
-    </div>
-  </section>
+      </section>
+    </main>
 
-</main>
-
-<footer class="wrap">
-  <span class="mono">© 2026 Vincenzo Mola — Backend Developer</span>
-  <span class="placeholder-note">Ricorda di sostituire tutti i campi tra [ ]</span>
-</footer>
-
-</body>
+    <footer class="wrap">
+      <span class="mono">© 2026 Vincenzo Mola — Backend Developer</span>
+    </footer>
+  </body>
 </html>
